@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Connect - Full App</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+:root{--p:#4f46e5;--s:#7c3aed}
+body{background:#f5f6fb;color:#111}
+.hidden{display:none!important}
+#auth{display:flex;min-height:100vh}
+.a-left{flex:1;background:linear-gradient(135deg,var(--p),var(--s),#ec4899);color:#fff;padding:50px;display:flex;flex-direction:column;justify-content:center}
+.a-left h1{font-size:3.5rem;font-weight:800;line-height:.9}
+.a-right{flex:1;background:#fff;display:flex;align-items:center;justify-content:center;padding:30px}
+.box{width:100%;max-width:400px}
+.box h2{font-size:1.9rem;font-weight:800}
+.box p{color:#666;margin:8px 0 22px}
+input,select,textarea{width:100%;padding:13px 15px;border:2px solid #e5e7eb;border-radius:12px;margin-bottom:12px;font-size:.95rem;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--p)}
+.btn{width:100%;padding:13px;background:#111;color:#fff;border:none;border-radius:12px;font-weight:600;cursor:pointer}
+.btn-p{background:var(--p)}
+.btn:hover{opacity:.9}
+.link{color:var(--p);font-weight:600;cursor:pointer}
+#app{display:none;min-height:100vh}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;padding:12px 18px}
+.logo{font-weight:800;font-size:1.25rem}.logo span{color:var(--p)}
+.navlinks{display:flex;gap:6px;overflow:auto}
+.nbtn{padding:8px 14px;border-radius:20px;border:1px solid #eee;background:#fff;cursor:pointer;font-size:.8rem;white-space:nowrap}
+.nbtn.active{background:#111;color:#fff;border-color:#111}
+.page{max-width:1100px;margin:0 auto;padding:20px;display:none}
+.page.active{display:block}
+.hero{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border-radius:20px;padding:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:18px}
+.card{background:#fff;border:1px solid #eee;border-radius:16px;padding:16px;transition:.2s}
+.card:hover{box-shadow:0 8px 24px rgba(0,0,0,.06);transform:translateY(-2px)}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:.65rem;font-weight:700;background:#eef2ff;color:var(--p)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.small{font-size:.82rem;color:#666;line-height:1.4}
+.action{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-size:.8rem;font-weight:600}
+.a1{background:#111;color:#fff}.a2{background:#eef2ff;color:var(--p)}
+.list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.item{background:#fff;border:1px solid #eee;border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chatbox{background:#fff;border:1px solid #eee;border-radius:16px;height:420px;display:flex;flex-direction:column;overflow:hidden}
+.msgs{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:75%;padding:10px 12px;border-radius:14px;font-size:.85rem}
+.me{align-self:flex-end;background:var(--p);color:#fff}
+.other{align-self:flex-start;background:#f3f4f6}
+.chatInput{display:flex;gap:8px;padding:10px;border-top:1px solid #eee}
+</style>
+</head>
+<body>
+<div id="auth">
+<div class="a-left"><h1>Student<br>Connect</h1><p style="margin-top:14px;opacity:.9">Full campus app — from account to marketplace, hostels, chat, notes, timetable & tutors.</p></div>
+<div class="a-right"><div class="box">
+<h2 id="at">Create account</h2><p id="as">Create to enter main page and see features</p>
+<input id="fn" placeholder="Full name"><input id="dp" placeholder="Department e.g. CSC"><input id="em" placeholder="Email"><input id="pw" type="password" placeholder="Password">
+<select id="lv"><option>100 Level</option><option>200 Level</option><option>300 Level</option><option>400 Level</option><option>500 Level</option></select>
+<button class="btn btn-p" onclick="signup()">Create Account & Enter Main Page</button>
+<p style="text-align:center;margin-top:14px;font-size:.9rem">Have account? <span class="link" onclick="toggle()">Login</span></p>
+</div></div></div>
+
+<div id="app">
+<nav><div class="logo">Student<span>Connect</span></div>
+<div class="navlinks">
+<button class="nbtn active" onclick="go('dash')">Dashboard</button><button class="nbtn" onclick="go('buddy')">Buddies</button><button class="nbtn" onclick="go('notes')">Notes</button><button class="nbtn" onclick="go('chat')">Chat</button><button class="nbtn" onclick="go('market')">Market</button><button class="nbtn" onclick="go('hostel')">Hostels</button><button class="nbtn" onclick="go('events')">Events</button><button class="nbtn" onclick="go('time')">Timetable</button><button class="nbtn" onclick="go('tutors')">Tutors</button><button class="nbtn" onclick="logout()">Logout</button>
+</div></nav>
+
+<div id="dash" class="page active"><div class="hero"><div><h2 id="wel">Welcome! 👋</h2><p id="wel2" style="opacity:.9;margin-top:4px">All features ready. Tap to enter.</p></div></div>
+<div class="grid">
+<div class="card" onclick="go('buddy')"><div class="badge">POPULAR</div><h3 style="margin-top:8px">👥 Find Study Buddy</h3><p class="small">Match by dept, level, courses</p></div>
+<div class="card" onclick="go('notes')"><h3>📚 Notes & PQ</h3><p class="small">Upload & download PDFs</p></div>
+<div class="card" onclick="go('chat')"><h3>💬 Campus Chat</h3><p class="small">Dept groups, DMs</p></div>
+<div class="card" onclick="go('market')"><h3>🛒 Marketplace</h3><p class="small">Books, laptops, handouts</p></div>
+<div class="card" onclick="go('hostel')"><h3>🏠 Hostel Finder</h3><p class="small">Verified hostels</p></div>
+<div class="card" onclick="go('events')"><h3>🎉 Events & Gigs</h3><p class="small">Parties, jobs</p></div>
+<div class="card" onclick="go('time')"><h3>🗓️ Timetable</h3><p class="small">Classes & assignments</p></div>
+<div class="card" onclick="go('tutors')"><h3>👨‍🏫 Tutors</h3><p class="small">Top students</p></div>
+</div></div>
+
+<div id="buddy" class="page"><h2>Find Study Buddy</h2><p class="small">Filtered by your dept: <b id="fDept">CSC</b></p><input id="searchBuddy" placeholder="Search by name, course, e.g. MTH101" oninput="renderBuddies()"><div class="grid" id="buddyGrid"></div></div>
+<div id="notes" class="page"><h2>Notes Library</h2><div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap"><input id="noteTitle" placeholder="Title e.g. CSC201 Past Q 2023" style="flex:2"><select id="noteCourse" style="flex:1"><option>CSC201</option><option>MTH101</option><option>PHY101</option><option>GST</option></select><button class="btn" style="width:auto;padding:13px 20px" onclick="addNote()">+ Upload</button></div><div class="list" id="noteList"></div></div>
+<div id="chat" class="page"><h2>Campus Chat</h2><div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div class="card" onclick="switchChat('CSC 200 Level')"><b>💬 CSC 200 Level</b></div><div class="card" onclick="switchChat('MTH101 Help Group')" style="margin-top:8px"><b>📚 MTH101 Help</b></div></div><div style="flex:2;min-width:300px"><div class="chatbox"><div class="msgs" id="msgs"></div><div class="chatInput"><input id="chatIn" placeholder="Type..."><button class="btn" style="width:80px" onclick="sendMsg()">Send</button></div></div></div></div></div>
+<div id="market" class="page"><h2>Marketplace</h2><div style="display:flex;gap:10px;margin-top:12px"><input id="mTitle" placeholder="Item" style="flex:2"><input id="mPrice" placeholder="Price" style="flex:1" type="number"><button class="btn" style="width:auto" onclick="addMarket()">+ Post</button></div><div class="grid" id="marketGrid"></div></div>
+<div id="hostel" class="page"><h2>Hostel Finder</h2><div class="list" id="hostelList"></div></div>
+<div id="events" class="page"><h2>Events & Gigs</h2><div class="grid" id="eventGrid"></div></div>
+<div id="time" class="page"><h2>Smart Timetable</h2><div style="display:flex;gap:8px;margin-top:12px"><input id="ttSub" placeholder="Subject"><input id="ttTime" placeholder="Time"><input id="ttDay" placeholder="Day"><button class="btn" style="width:120px" onclick="addTT()">+ Add</button></div><div class="list" id="ttList"></div></div>
+<div id="tutors" class="page"><h2>Find Tutors</h2><div class="grid" id="tutorGrid"></div></div>
+</div>
+
+<script>
+let isLogin=false;function toggle(){isLogin=!isLogin;document.getElementById('at').innerText=isLogin?'Login':'Create account';document.querySelector('.btn-p').innerText=isLogin?'Login & Enter Main Page':'Create Account & Enter Main Page';document.getElementById('fn').classList.toggle('hidden',isLogin);document.getElementById('dp').classList.toggle('hidden',isLogin);document.getElementById('lv').classList.toggle('hidden',isLogin);}
+function signup(){const n=document.getElementById('fn').value||localStorage.getItem('sc_name')||'Student';const d=document.getElementById('dp').value||localStorage.getItem('sc_dept')||'CSC';const e=document.getElementById('em').value;const p=document.getElementById('pw').value;if(!e||!p){alert('Enter email & password');return}localStorage.setItem('sc_name',n);localStorage.setItem('sc_dept',d);localStorage.setItem('sc_email',e);localStorage.setItem('sc_logged','1');enter(n,d);}
+function enter(n,d){document.getElementById('auth').style.display='none';document.getElementById('app').style.display='block';document.getElementById('wel').innerText='Welcome, '+n.split(' ')[0]+'! 👋';document.getElementById('fDept').innerText=d;initAll();}
+function logout(){localStorage.removeItem('sc_logged');location.reload()}
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active')}
+let buddies=[{name:'Ada Lovelace',dept:'CSC',level:'300L',courses:'CSC201, MTH101',gpa:'4.7'},{name:'Tunde Okafor',dept:'CSC',level:'200L',courses:'CSC201, PHY101',gpa:'4.2'},{name:'Chiamaka N.',dept:'CSC',level:'200L',courses:'CSC201',gpa:'4.5'}];
+function renderBuddies(){const q=(document.getElementById('searchBuddy').value||'').toLowerCase();const grid=document.getElementById('buddyGrid');grid.innerHTML='';buddies.filter(b=>(b.name+b.dept+b.courses).toLowerCase().includes(q)).forEach(b=>{grid.innerHTML+=`<div class="card"><b>${b.name}</b> <span class="badge">${b.level}</span><p class="small">${b.dept} • GPA ${b.gpa}<br>${b.courses}</p><div style="margin-top:8px"><button class="action a1" onclick="alert('Request sent to ${b.name}!')">Connect</button></div></div>`})}
+let notes=JSON.parse(localStorage.getItem('sc_notes')||'[]');if(notes.length===0)notes=[{title:'CSC201 Past Question 2023',course:'CSC201',uploader:'Admin',date:'Today'}];
+function renderNotes(){const l=document.getElementById('noteList');l.innerHTML='';notes.forEach(n=>{l.innerHTML+=`<div class="item"><div><b>📄 ${n.title}</b><br><span class="small">${n.course} • ${n.uploader}</span></div><button class="action a2">Download</button></div>`})}
+function addNote(){const t=document.getElementById('noteTitle').value;const c=document.getElementById('noteCourse').value;if(!t)return;notes.unshift({title:t,course:c,uploader:localStorage.getItem('sc_name'),date:'Now'});localStorage.setItem('sc_notes',JSON.stringify(notes));renderNotes()}
+let chatGroup='CSC 200 Level';let chats=JSON.parse(localStorage.getItem('sc_chats')||'{}');
+function switchChat(g){chatGroup=g;renderChat()}function renderChat(){const m=document.getElementById('msgs');m.innerHTML='';(chats[chatGroup]||[{from:'Ada',text:'Anyone with CSC201 note?',me:false}]).forEach(c=>{m.innerHTML+=`<div class="msg ${c.me?'me':'other'}"><b>${c.from}:</b> ${c.text}</div>`})}
+function sendMsg(){const i=document.getElementById('chatIn');if(!i.value)return;if(!chats[chatGroup])chats[chatGroup]=[];chats[chatGroup].push({from:localStorage.getItem('sc_name'),text:i.value,me:true});localStorage.setItem('sc_chats',JSON.stringify(chats));i.value='';renderChat()}
+let markets=JSON.parse(localStorage.getItem('sc_market')||'[]');if(markets.length===0)markets=[{title:'Dell Laptop 8GB',price:'180k',seller:'Tunde'}];
+function renderMarket(){const g=document.getElementById('marketGrid');g.innerHTML='';markets.forEach(m=>{g.innerHTML+=`<div class="card"><h3>${m.title}</h3><p class="small">₦${m.price} • ${m.seller}</p></div>`})}
+function addMarket(){const t=document.getElementById('mTitle').value;const p=document.getElementById('mPrice').value;if(!t||!p)return;markets.unshift({title:t,price:p,seller:localStorage.getItem('sc_name')});localStorage.setItem('sc_market',JSON.stringify(markets));renderMarket()}
+function renderHostels(){document.getElementById('hostelList').innerHTML=`<div class="item"><div><b>🏠 Harmony Lodge</b><br><span class="small">₦180k/year • 2 spaces left</span></div><button class="action a1">Contact</button></div>`}
+function renderEvents(){document.getElementById('eventGrid').innerHTML=`<div class="card"><div class="badge">TOMORROW</div><h3>💻 Tech Hangout</h3><p class="small">LT1 • 2PM</p></div>`}
+let tt=JSON.parse(localStorage.getItem('sc_tt')||'[]');function renderTT(){const l=document.getElementById('ttList');l.innerHTML='';tt.forEach((t,i)=>{l.innerHTML+=`<div class="item"><div><b>${t.sub}</b><br><span class="small">${t.day} • ${t.time}</span></div><button class="action a2" onclick="tt.splice(${i},1);localStorage.setItem('sc_tt',JSON.stringify(tt));renderTT()">Done</button></div>`})}
+function addTT(){const s=document.getElementById('ttSub').value;const tm=document.getElementById('ttTime').value;const d=document.getElementById('ttDay').value;if(!s||!tm||!d)return;tt.push({sub:s,time:tm,day:d});localStorage.setItem('sc_tt',JSON.stringify(tt));renderTT()}
+function renderTutors(){document.getElementById('tutorGrid').innerHTML=`<div class="card"><b>Emeka J. - 4.8 GPA</b><p class="small">MTH101 • ₦1k/hr</p><button class="action a1">Book</button></div>`}
+function initAll(){renderBuddies();renderNotes();renderChat();renderMarket();renderHostels();renderEvents();renderTT();renderTutors()}
+window.onload=()=>{if(localStorage.getItem('sc_logged')==='1'){enter(localStorage.getItem('sc_name')||'Student',localStorage.getItem('sc_dept')||'CSC')}}
+</script>
+</body>
+</html>
