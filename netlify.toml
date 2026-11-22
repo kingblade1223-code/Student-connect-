@@ -1,0 +1,7 @@
+# Plain static site: one self-contained HTML page, no framework or dependencies.
+# The page isn't named index.html (and lives in a folder with a space in its name),
+# so the build copies it into a clean output folder as index.html, which makes it
+# load at the site root.
+[build]
+  command = "mkdir -p dist && cp \"STUDENT CONNECT/student 2.html\" dist/index.html"
+  publish = "dist"
